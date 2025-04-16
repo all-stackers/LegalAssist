@@ -1,5 +1,5 @@
-__pycache__/config.cpython-310.pyc
-resources/__pycache__/pdf_chat.cpython-310.pyc
-utils/__pycache__/database.cpython-310.pyc
-utils/__pycache__/pdf_processor.cpython-310.pyc
+__pycache__/
+utils/__pycache__
+resources/__pycache__
+
 .env

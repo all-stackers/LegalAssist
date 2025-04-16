@@ -16,10 +16,21 @@ export const processURL = async (url) => {
 // Function to ask a question based on the stored URL ID
 export const askQuestion = async (url_id, question) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/ask_question`, { url_id, question });
+    const response = await axios.post(`${API_BASE_URL}/ask_question`, {
+      url_id,
+      question,
+    });
     return response.data.answer;
   } catch (error) {
     console.error("Error fetching answer:", error);
     return "Error fetching answer";
   }
+};
+
+export const getChatDetails = async (chatId) => {
+  const response = await fetch(`${API_BASE_URL}/api/url-chat/${chatId}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch chat details");
+  }
+  return response.json();
 };

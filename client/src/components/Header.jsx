@@ -1,29 +1,39 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import { usePathname } from "next/navigation";
 import axios from "axios";
 
 const Header = () => {
   const pathname = usePathname();
-  const [title, setTitle] = useState("Previous Chats");
+  const [title, setTitle] = useState("Chat with URL");
 
   useEffect(() => {
     const pathSegments = pathname.split("/").filter(Boolean);
 
-    if (pathname === "/chats") {
+    if (pathname === "/chat-url") {
+      setTitle("Chat with URL");
+    } else if (pathSegments[0] === "chat-url" && pathSegments[1]) {
+      // If it's a URL chat ID, fetch title from API
+      const urlId = pathSegments[1];
+      axios
+        .get(`http://localhost:5000/api/url-chat/${urlId}/title`)
+        .then((res) => {
+          setTitle(res.data.name || "URL Chat");
+        })
+        .catch(() => setTitle("URL Chat"));
+    }
+    // Keep your existing chat routes logic
+    else if (pathname === "/chats") {
       setTitle("Previous Chats");
     } else if (pathname === "/chats/upload-pdf") {
       setTitle("New Chat");
     } else if (pathSegments[0] === "chats" && pathSegments[1]) {
-      // If it's a dynamic chat ID, fetch title from API
       const chatId = pathSegments[1];
       axios
         .get(`http://localhost:5000/api/chats/${chatId}/title`)
         .then((res) => {
-          console.log(res);
-          return setTitle(res.data.name || "Chat");
+          setTitle(res.data.name || "Chat");
         })
         .catch(() => setTitle("Chat"));
     } else {
@@ -31,9 +41,10 @@ const Header = () => {
     }
   }, [pathname]);
 
+
   return (
     <header className="h-[64px] border-b border-gray-200 px-6 flex items-center justify-between bg-white shadow-sm">
-      <div className="text-xl font-semibold">{title}</div>
+      <div className="text-xl font-bold text-gray-800">{title}</div>
       <div className="flex items-center gap-4">
         <button className="p-2 rounded-full hover:bg-gray-100 transition-all relative">
           <BellIcon />
