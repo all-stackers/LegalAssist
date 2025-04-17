@@ -84,7 +84,7 @@ class URLChatService(Resource):
                 return jsonify({"error": "No relevant content found"}), 200
 
             chain = self._get_conversational_chain()
-            response = chain(
+            response = chain.invoke(
                 {"input_documents": docs, "question": user_question},
                 return_only_outputs=True,
             )
@@ -113,6 +113,8 @@ class URLChatService(Resource):
         prompt_template = """
         Answer based on the context. If answer isn't in context, say: 
         'Answer is not available in the context.'
+        Answer in the english language only.
+        Answer can be in markdown format.
         
         Context:\n{context}\n
         Question:\n{question}\n

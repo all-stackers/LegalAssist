@@ -20,6 +20,8 @@ class PDFChatService(Resource):
         If the answer is not in the provided context, just say 
         "Answer is not available in the context." 
         Do not provide incorrect information.
+        Answer in the english language only.
+        Answer can be in markdown format.
         
         Context: {context}
         Question: {question}
@@ -60,10 +62,10 @@ class PDFChatService(Resource):
             )
             return result["output_text"].strip()
 
-        name = ask("Generate a short and meaningful name for this PDF.")
-        description = ask("Write a 20-25 word description summarizing the document.")
+        name = ask("Generate a short and meaningful name for this PDF. Answer in english only.")
+        description = ask("Write a 20-25 word description summarizing the document. Answer in english only.")
         keywords = ask(
-            "Give 3-4 important keywords or phrases relevant to the document, separated by commas."
+            "Give 3-4 important keywords or phrases relevant to the document, separated by commas. Answer in english only."
         )
 
         # Prepare MongoDB record

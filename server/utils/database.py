@@ -48,6 +48,11 @@ class MongoDBManager:
         """Update an existing chat record"""
         return self.chats_collection.update_one({"chat_id": chat_id}, update_data)
 
+    def delete_chat_record(self, chat_id):
+        """Delete a chat record by chat_id"""
+        result = self.chats_collection.delete_one({"chat_id": chat_id})
+        return result.deleted_count  # returns 1 if deleted, 0 if not found
+
 
 class URLDBManager:
     """NEW CLASS - For URL documents (Mirrors ChatDB structure but separate collection)"""
@@ -106,6 +111,11 @@ class URLDBManager:
                 "$set": {"last_activity": datetime.utcnow()},
             },
         )
+
+    def delete_url_record(self, url_id):
+        """Delete a chat record by chat_id"""
+        result = self.urls_collection.delete_one({"url_id": url_id})
+        return result.deleted_count  # returns 1 if deleted, 0 if not found
 
 
 class UnifiedDBManager:
