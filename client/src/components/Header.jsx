@@ -36,11 +36,12 @@ const Header = () => {
           setTitle(res.data.name || "Chat");
         })
         .catch(() => setTitle("Chat"));
+    } else if (pathname === "/ask-query") {
+      setTitle("Ask Query");
     } else {
-      setTitle("Previous Chats");
+      setTitle("Legal Assist");
     }
   }, [pathname]);
-
 
   return (
     <header className="h-[64px] border-b border-gray-200 px-6 flex items-center justify-between bg-white shadow-sm">
